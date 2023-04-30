@@ -1,5 +1,5 @@
 import React,{useState} from 'react'
-import Logo from '../components/images/logo.png';
+import Logo from '../components/brand/logo.png';
 import { Icon } from 'react-icons-kit'
 import {menu} from 'react-icons-kit/feather/menu'
 import {x} from 'react-icons-kit/feather/x'
