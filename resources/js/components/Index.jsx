@@ -7,8 +7,8 @@ const Index = () => {
   return (
     <div>
       <Navbar
-            links={[<li><Link className='link' to='/register'>Sign Up</Link></li>
-        ,<li className='link'><Link className='link' to='/login'>Sign In</Link></li>
+            links={[<li><Link className='link' to='register'>Sign Up</Link></li>
+        ,<li className='link'><Link className='link' to='login'>Sign In</Link></li>
         ]}/>
         
         

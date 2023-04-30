@@ -63,12 +63,12 @@ const signUp = () => {
         await axios.post('/api/register/', formData)
             .then(({ data }) => {
                 console.log(data)
-                setName('')
-                setLastname('')
-                setEmail('')
-                setPassword('')
-                setConfirmPassword('')
-                setErrors([])
+                // setName('')
+                // setLastname('')
+                // setEmail('')
+                // setPassword('')
+                // setConfirmPassword('')
+                // setErrors([])
                 navigate('login')
             })
             .catch(({ response }) => {
