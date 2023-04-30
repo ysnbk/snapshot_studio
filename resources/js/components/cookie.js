@@ -20,3 +20,7 @@ export const getCookie=(cname)=>{
     }
     return ''
 }
+
+export const removeCookie=(name)=>{
+    document.cookie = name+"="+";expires=sun, 18 dec 2022 00:00:00 UTC"
+}

@@ -25,14 +25,8 @@ class UserController extends Controller
                 'regex:/[!:;,@&#.]/'
             ],
             'confirm_password' => 'required|same:password'
-        ],[
-            
-                'password.regex.0'=> 'password must contain a lower case character',
-                'password.regex.1'=> 'password must contain a upper case character',
-                'password.regex.2'=> 'password must contain a number',
-                // 'password.regex.3'=> 'password must contain a lower case character'
-                
         ]);
+        
         $user = new User();
         $user->name = $request->input('name');
         $user->lastname = $request->input('lastname');
@@ -69,12 +63,6 @@ class UserController extends Controller
                 // 'regex:/[!:;,@&#.]/'
             ]
             
-        ],[
-            'password.regex.0'=> 'password must contain a lower case character',
-            'password.regex.1'=> 'password must contain a upper case character',
-            'password.regex.2'=> 'password must contain a number',
-            // 'password.regex.3'=> 'password must contain a lower case character'
-            
         ]);
         $user = User::where('email','=',$request->email)->first();
         if ($user) {
@@ -105,12 +93,30 @@ class UserController extends Controller
     }
 
     public function dashboard(Request $request){
-        $cookie = $request->cookie;
-
-        $user = User::where('crypted_email','=',$cookie)->first();
+        $user = User::where('crypted_email','=',$request->cookie)->first();
         return response()->json([
             'user'=>$user,
-            'cookie'=>$cookie
+            'cookie'=>$request->cookie
         ]);
+    }
+    public function changeProfile(Request $request){
+        $user = User::where('crypted_email','=',$_COOKIE['user'])->first();
+        
+        if(file_exists($user->profile))
+            unlink($user->profile);
+
+        $uri = substr($request->profile,strpos($request->profile,",")+1);
+        $data = base64_decode($uri);
+        $strpos = strpos($request->profile, ";");
+        $sub = substr($request->profile, 0, $strpos);
+        $ext =explode('/',$sub)[1];
+        $filename=$user->id."-".time().".".$ext;
+        $user->profile = "profiles/".$filename;
+        $user->update();
+        file_put_contents('profiles/'.$filename,$data);
+        return response()->json([
+            'data'=>$request->all(),
+            'cookie'=> $_COOKIE['user']
+        ]); 
     }
 }

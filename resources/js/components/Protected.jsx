@@ -5,7 +5,6 @@ import { getCookie } from './cookie';
 const Protected = (props) => {
     const navigate=useNavigate()
     const cookie = getCookie("user")
-    console.log(cookie);
     useEffect(() => {
       
       if(!cookie && cookie == '' || cookie == null){

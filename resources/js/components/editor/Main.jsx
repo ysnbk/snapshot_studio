@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { getCookie } from '../cookie';
+import { getCookie , removeCookie} from '../cookie';
 import Navbar from '../Navbar'
 import Loading from '../Loading';
 
@@ -35,17 +35,43 @@ const Main = () => {
     window.addEventListener('load',getData())
   }, []);
   const changeProfile =()=>{
-    const file = document.createElement("input");
-    file.type="file"
-    file.accept="image/*"
-    file.click()
+    const profile = document.createElement("input");
+    profile.type="file"
+    profile.accept="image/*"
+    profile.click()
+    profile.onchange=(e)=>{
+      let file = e.target.files[0]
+      let reader = new FileReader()
+        const formData = new FormData()
+        reader.onloadend = async (file)=>{
+          // const ch = reader.result
+          // console.log(ch)
+          formData.append('profile', reader.result)
+          await axios.post('/api/changeProfile/', formData)
+      .then(({ data }) => {
+        console.log(data)
+        window.location.reload()
+      })
+      .catch(({ response }) => {
+        console.log(response)
+      })
+        }
+        
+     
+      reader.readAsDataURL(file)
+    }
+
+  }
+  const logout=()=>{
+    removeCookie("user")
+    window.location.reload()
   }
   return (
     isLoading?<Loading/>:
     <div>
         <Navbar links={[<div className="dropdown mx-2">
 
-    <img src={user.profile} alt width={32} height={32} className="me-2" onClick={changeProfile}/>
+    <img src={user.profile} alt width={32} height={32} className="rounded-circle me-2" onClick={changeProfile}/>
   <a href="#" className="link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
     <strong>{user.name}</strong>
   </a>
@@ -54,7 +80,7 @@ const Main = () => {
     <li><a className="dropdown-item" href="#">Settings</a></li>
     <li><a className="dropdown-item" href="#">Profile</a></li>
     <li><hr className="dropdown-divider" /></li>
-    <li><a className="dropdown-item" href="#">Sign out</a></li>
+    <li><button className="dropdown-item" onClick={logout}>Sign out</button></li>
   </ul>
 </div>
 

@@ -90,8 +90,9 @@ const signUp = () => {
                 contentLabel="Example Modal"
             >
                 <button className='float-end btn-close' onClick={closeModal}></button>
-          <h1 className="fs-5 text-center"><span><img src={Logo} alt="" width='70px'/></span> Sign up</h1>
+         <img src={Logo} alt="" width='60px'/>
           <hr />
+          <h1 className="fs-5 text-center"> Sign up</h1>
                             <div>
                             <input type="text" name='name' className="input-box" placeholder="First Name" value={name} onChange={(e) => { setName(e.target.value) }} />
                             {errors.name && (
@@ -113,7 +114,7 @@ const signUp = () => {
                             {errors.confirm_password && (
                                 <span className='text-danger'><p>{errors.confirm_password[0]}</p></span>
                             )}
-                            <button className="submit-btn text-light" onClick={save}>submit</button>
+                            <button className="submit-btn text-light" onClick={save}>Sign up</button>
                             <p className='fs-5' data-bs-dismiss="modal">Already have an account? <Link to='/login'>Sign in</Link></p>
                             </div>
 

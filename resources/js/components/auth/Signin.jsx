@@ -56,7 +56,6 @@ const Signin = () => {
     await axios.post('/api/login/', formData)
       .then(({ data }) => {
         setErrors(data.error)
-        console.log(data)
 
         if (!data.error) {
           if(data.email_crypted != null){
@@ -93,7 +92,7 @@ const Signin = () => {
           <hr/>
               <div className="rounded">
                 <div>
-              <h1 className="fs-3 text-center" style={{color:'#e86228'}}> Login</h1>
+              <h1 className="fs-3 text-center"> Login</h1>
                   <input type="email" name='email' className="input-box" placeholder="Your Email" value={email} onChange={(e) => { setEmail(e.target.value) }} />
                   {errors.email && (
                     <span className='text-danger'><p>{errors.email[0]}</p></span>
