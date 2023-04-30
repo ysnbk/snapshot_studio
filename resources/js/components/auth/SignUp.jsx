@@ -69,7 +69,7 @@ const signUp = () => {
                 // setPassword('')
                 // setConfirmPassword('')
                 // setErrors([])
-                navigate('login')
+                navigate('/login')
             })
             .catch(({ response }) => {
                 setErrors(response.data.errors)
