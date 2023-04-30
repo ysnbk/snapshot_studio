@@ -31,6 +31,7 @@ class UserController extends Controller
         $user->name = $request->input('name');
         $user->lastname = $request->input('lastname');
         $user->email = $request->input('email');
+        $user->crypted_email = crypt($user->email,'sns');
         $user->password = Hash::make($request->password);
 
         $letters ="0123456789ABCDEF";
