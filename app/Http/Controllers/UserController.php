@@ -34,7 +34,6 @@ class UserController extends Controller
         $user->crypted_email = crypt($user->email,'sns');
         $user->password = Hash::make($request->password);
 
-        $letters ="0123456789ABCDEF";
         $color=sprintf('%06X',mt_rand(0,0xFFFFFF));
         $profile="https://ui-avatars.com/api/?background=".$color."&color=fff&name=".$user->name."+".$user->lastname."&rounded=true";
         $user->profile = $profile;
@@ -71,7 +70,8 @@ class UserController extends Controller
                 // $request->session()->put('LoginId',$user->id);
                 return response()->json([
                     'user'=> $user,
-                    'email'=>$user->email
+                    'email'=>$user->email,
+                    'email_crypted'=>$user->email_crypted
                 ]); 
                 
             }else{
