@@ -3,12 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
-use Illuminate\Support\Facades\Session;
+
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\File;
+
 use Illuminate\Support\Facades\Hash;
- use Intervention\Image\Facades\Image;
-//  use Intervention\Image\ImageManagerStatic as Image;
+
 
 class UserController extends Controller
 {

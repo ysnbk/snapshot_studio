@@ -14,10 +14,10 @@ const Router = () => {
             <Route path="/" element={<Index/>}>
               
             </Route>
-            <Route path="/login" element={<Signin/>}/>
-            <Route path="/register" element={<SignUp/>}/>
-            <Route path="/editor" element={<Protected component={<Main/>}/>}/>
-            <Route path="/*" element={<NotFound/>}/>
+            <Route path="login" element={<Signin/>}/>
+            <Route path="register" element={<SignUp/>}/>
+            <Route path="editor" element={<Protected component={<Main/>}/>}/>
+            <Route path="*" element={<NotFound/>}/>
         </Routes>
     </div>
   )
