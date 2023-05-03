@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { getCookie , removeCookie} from '../cookie';
 import Navbar from '../Navbar'
 import Loading from '../Loading';
+import Editor from '../Editor';
 
 const Main = () => {
   const [isLoading , setIsLoading]=useState(false)
@@ -85,7 +86,9 @@ const Main = () => {
 </div>
 
 ]}/>
-
+  <main>
+    <Editor/>
+  </main>
     </div>
   )
 }
