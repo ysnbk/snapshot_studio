@@ -56,11 +56,12 @@ const Signin = () => {
     await axios.post('/api/login/', formData)
       .then(({ data }) => {
         setErrors(data.error)
-        // console.log(data)
+        console.log(data)
 
         if (!data.error) {
-
-          setCookie('user', data.email)
+          if(data.email_crypted != null){
+            setCookie('user', data.email_crypted)
+          }
           navigate('/editor')
         }
       })

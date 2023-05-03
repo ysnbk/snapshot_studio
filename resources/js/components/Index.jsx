@@ -7,9 +7,7 @@ import Loading from './Loading'
 const Index = () => {
   const [isLoading , setIsLoading]=useState(true)
   useEffect(() => {
-
-    setIsLoading(true)
-    setIsLoading(false)
+  {setIsLoading(false)}
   }, []);
   return (
     isLoading?<Loading/>:

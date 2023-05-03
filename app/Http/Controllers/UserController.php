@@ -25,12 +25,19 @@ class UserController extends Controller
                 'regex:/[!:;,@&#.]/'
             ],
             'confirm_password' => 'required|same:password'
+        ],[
+            
+                'password.regex.0'=> 'password must contain a lower case character',
+                'password.regex.1'=> 'password must contain a upper case character',
+                'password.regex.2'=> 'password must contain a number',
+                // 'password.regex.3'=> 'password must contain a lower case character'
+                
         ]);
         $user = new User();
         $user->name = $request->input('name');
         $user->lastname = $request->input('lastname');
         $user->email = $request->input('email');
-        $user->crypted_email = crypt($user->email,'sns');
+        $user->crypted_email = crypt($user->email,'$2a$07$usesomesillystringforsalt$');
         $user->password = Hash::make($request->password);
 
         $color=sprintf('%06X',mt_rand(0,0xFFFFFF));
@@ -59,8 +66,14 @@ class UserController extends Controller
                 'regex:/[a-z]/',
                 'regex:/[A-Z]/',
                 'regex:/[0-9]/',
-                'regex:/[!:;,@&#.]/'
+                // 'regex:/[!:;,@&#.]/'
             ]
+            
+        ],[
+            'password.regex.0'=> 'password must contain a lower case character',
+            'password.regex.1'=> 'password must contain a upper case character',
+            'password.regex.2'=> 'password must contain a number',
+            // 'password.regex.3'=> 'password must contain a lower case character'
             
         ]);
         $user = User::where('email','=',$request->email)->first();
@@ -68,9 +81,10 @@ class UserController extends Controller
             if (Hash::check($request->password,$user->password)) {
                 // $request->session()->put('LoginId',$user->id);
                 return response()->json([
+                    'ip'=>$request->ips(),
                     'user'=> $user,
                     'email'=>$user->email,
-                    'email_crypted'=>$user->email_crypted
+                    'email_crypted'=>$user->crypted_email
                 ]); 
                 
             }else{
@@ -90,11 +104,13 @@ class UserController extends Controller
         
     }
 
-    public function dashboard($cookie){
-        $user = User::where('email','=',$cookie)->first();
-        // dd(decrypt($cookie,'st'));
+    public function dashboard(Request $request){
+        $cookie = $request->cookie;
+
+        $user = User::where('crypted_email','=',$cookie)->first();
         return response()->json([
-            'user'=>$user
+            'user'=>$user,
+            'cookie'=>$cookie
         ]);
     }
 }

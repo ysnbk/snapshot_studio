@@ -8,7 +8,7 @@ const Protected = (props) => {
     console.log(cookie);
     useEffect(() => {
       
-      if(!cookie){
+      if(!cookie && cookie == '' || cookie == null){
   
           navigate('/login')
       }

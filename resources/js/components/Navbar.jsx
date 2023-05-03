@@ -13,7 +13,7 @@ const Navbar = (props) => {
   }
   return (
     <nav className={toggle?'navbar expanded':'navbar'}>
-          <Link to='/'><img src={Logo} alt="" className='logo' srcSet="" /></Link>
+          <Link to='/'><img src={Logo} alt="#" className='logo' srcSet="" /></Link>
           <div className="toggle-icon" onClick={handleToggle}>
               {toggle?<Icon icon={x} size={28}/>:<Icon icon={menu} size={28}/>}
           </div>
@@ -21,8 +21,6 @@ const Navbar = (props) => {
             {props.links}
             
           </ul>
-
-
         
     </nav>
    
