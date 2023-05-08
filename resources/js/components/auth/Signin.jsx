@@ -1,6 +1,7 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
 import Logo from '../brand/logo.png';
+import '../../styles/App.css';
 import { Link, useNavigate } from 'react-router-dom'
 import Modal from 'react-modal';
 import Navbar from '../Navbar';

@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Logo from '../brand/logo.png';
+import '../../styles/App.css';
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom';
 import Modal from 'react-modal';
@@ -62,13 +63,6 @@ const signUp = () => {
         
         await axios.post('/api/register/', formData)
             .then(({ data }) => {
-                console.log(data)
-                // setName('')
-                // setLastname('')
-                // setEmail('')
-                // setPassword('')
-                // setConfirmPassword('')
-                // setErrors([])
                 navigate('/login')
             })
             .catch(({ response }) => {

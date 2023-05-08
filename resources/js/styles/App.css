@@ -61,7 +61,7 @@
   color: #000000;
   font-size: 12px;
 }
-button{
+.submit-btn{
   width:100%;
   background: #198dbe;
   border: 1px solid #fff;

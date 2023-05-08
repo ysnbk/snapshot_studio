@@ -1,11 +1,13 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
+import { useNavigate} from 'react-router-dom'
 import { getCookie , removeCookie} from '../cookie';
 import Navbar from '../Navbar'
 import Loading from '../Loading';
 import Editor from '../Editor';
 
 const Main = () => {
+  const navigate = useNavigate()
   const [isLoading , setIsLoading]=useState(false)
   const [user , setUser]=useState('')
   useEffect(() => {
@@ -65,7 +67,7 @@ const Main = () => {
   }
   const logout=()=>{
     removeCookie("user")
-    window.location.reload()
+    navigate('/')
   }
   return (
     isLoading?<Loading/>:
