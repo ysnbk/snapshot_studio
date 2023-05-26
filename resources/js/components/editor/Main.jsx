@@ -47,8 +47,6 @@ const Main = () => {
       let reader = new FileReader()
         const formData = new FormData()
         reader.onloadend = async (file)=>{
-          // const ch = reader.result
-          // console.log(ch)
           formData.append('profile', reader.result)
           await axios.post('/api/changeProfile/', formData)
       .then(({ data }) => {
