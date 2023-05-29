@@ -18,11 +18,11 @@ class UserController extends Controller
             'lastname' => 'required',
             'email' => 'required|email|unique:users',
             'password' => [
-                'required', 'min:6',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                'regex:/[!:;,@&#.]/'
+                'required', 'min:8',
+                // 'regex:/[a-z]/',
+                // 'regex:/[A-Z]/',
+                // 'regex:/[0-9]/',
+                // 'regex:/[!:;,@&#.]/'
             ],
             'confirm_password' => 'required|same:password'
         ]);
@@ -57,17 +57,12 @@ class UserController extends Controller
             'email'=> 'required|email',
             'password'=> [
                 'required','min:6',
-                'regex:/[a-z]/',
-                'regex:/[A-Z]/',
-                'regex:/[0-9]/',
-                // 'regex:/[!:;,@&#.]/'
             ]
             
         ]);
         $user = User::where('email','=',$request->email)->first();
         if ($user) {
             if (Hash::check($request->password,$user->password)) {
-                // $request->session()->put('LoginId',$user->id);
                 return response()->json([
                     'ip'=>$request->ips(),
                     'user'=> $user,
@@ -118,5 +113,11 @@ class UserController extends Controller
             'data'=>$request->all(),
             'cookie'=> $_COOKIE['user']
         ]); 
+    }
+
+    public function saveImage(Request $request){
+        return response()->json([
+            'image'=>$request->image
+        ]);
     }
 }

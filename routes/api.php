@@ -23,3 +23,4 @@ Route::post('register',[UserController::class,'register']);
 Route::post('login',[UserController::class,'login']);
 Route::get('dashboard/',[UserController::class,'dashboard']);
 Route::post('changeProfile',[UserController::class,'changeProfile']);
+Route::post('saveImage',[UserController::class,'saveImage']);

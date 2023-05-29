@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import logo from './brand/logo.png'
 import '../styles/editor.css'
+import { getCookie } from './cookie'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSun, faAdjust, faCropSimple, faDownload, faImage } from '@fortawesome/free-solid-svg-icons'
+import ReactCrop from 'react-image-crop'
+import 'react-image-crop/dist/ReactCrop.css'
 
 const Editor = () => {
   const defaultFilters = [
@@ -12,7 +17,8 @@ const Editor = () => {
         min: 0,
         max: 200
       },
-      unit: '%'
+      unit: '%',
+      icon:faSun
     },
     {
       name: 'Grayscale',
@@ -22,17 +28,8 @@ const Editor = () => {
         min: 0,
         max: 100
       },
-      unit: '%'
-    },
-    {
-      name: 'Sepia',
-      property: 'sepia',
-      value: 0,
-      range: {
-        min: 0,
-        max: 100
-      },
-      unit: '%'
+      unit: '%',
+
     },
     {
       name: 'Saturation',
@@ -42,7 +39,7 @@ const Editor = () => {
         min: 0,
         max: 200
       },
-      unit: '%'
+      unit: '%',
     },
     {
       name: 'Contrast',
@@ -52,7 +49,8 @@ const Editor = () => {
         min: 0,
         max: 200
       },
-      unit: '%'
+      unit: '%',
+      icon:faAdjust
     },
     {
       name: 'Hue Rotate',
@@ -62,7 +60,7 @@ const Editor = () => {
         min: 0,
         max: 360
       },
-      unit: 'deg'
+      unit: 'deg',
     }, {
       name: 'Invert',
       property: 'invert',
@@ -99,6 +97,8 @@ const Editor = () => {
 
   const [details, setDetails] = useState('')
   const [image, setImage] = useState('')
+  const [crop, setCrop] = useState('')
+
   const inputHandle = (e) => {
     setOptions(prevOptions => {
       return prevOptions.map((option, index) => {
@@ -125,7 +125,31 @@ const Editor = () => {
     }
   }
 
-  const saveImage = () => {
+  const imageCrop = () => {
+    const canvas = document.createElement('canvas')
+    const scaleX = details.naturalWidth / details.width
+    const scaleY = details.naturalHeight / details.height
+    canvas.width = crop.width
+    canvas.height = crop.height
+    const ctx = canvas.getContext('2d')
+
+    ctx.drawImage(
+        details,
+        crop.x * scaleX,
+        crop.y * scaleY,
+        crop.width * scaleX,
+        crop.height * scaleY,
+        0,
+        0,
+        crop.width,
+        crop.height
+    )
+
+    setImage( canvas.toDataURL())
+    setCrop('')
+}
+
+  const saveImage = async () => {
     const canvas = document.createElement('canvas')
     canvas.width = details.naturalHeight
     canvas.height = details.naturalHeight
@@ -135,7 +159,7 @@ const Editor = () => {
       return `${option.property}(${option.value}${option.unit})`
     })
     ctx.filter = adjustments.join(' ')
-console.log("filters",ctx.filter)
+
     ctx.translate(canvas.width / 2, canvas.height / 2)
     ctx.rotate(0 * Math.PI / 180)
     ctx.scale(1, 1) // vertical, horizontal
@@ -149,31 +173,56 @@ console.log("filters",ctx.filter)
     )
 
     const link = document.createElement('a')
-    link.download = 'image_edit.jpg'
+    link.download = 'SnapshotSTudio.jpg'
     link.href = canvas.toDataURL()
-    link.click()
+    // link.click()
+    if(getCookie("user")){
+
+        const formData = new FormData()
+        formData.append('user', getCookie("user"))
+        formData.append('image',canvas.toDataURL())
+
+        await axios.post('/api/saveImage',formData)
+            .then(({ data }) => {
+                console.log(data);
+            })
+            .catch(({ response }) => {
+                console.log(response)
+            })
+      }
+
   }
   return (
     <>
-      <div className="container w-75 mt-3 shadow-lg p-3 mb-5 bg-body-tertiary rounded">
+      <div className="container w-75 mt-3 p-3 mb-5 bg-body-tertiary rounded">
         <h2 className='text-center'><img src={logo} alt="" width='60px' /> Snapshot Studio</h2>
         <main className="editor">
           {
             image ?
               <div className="tools">
+                Filters:
                 <ul>
                   {
                     defaultFilters.map((v, i) => <li>
-                      <button className={`option-button text-capitalize ${i === selectedOptionIndex ? 'active' : ''}`} onClick={() => setSelectedOptionIndex(i)} key={i}>{v.name}</button>
+                      
+                      <button className={`option-button text-capitalize ${i === selectedOptionIndex ? 'active' : ''}`} onClick={() => setSelectedOptionIndex(i)} key={i}><FontAwesomeIcon icon={v.icon}/> {v.name}</button>
                     </li>)
                   }
                 </ul>
+                
+                {crop ?
+                  <>Crop:
+                  <button className="option-button text-capitalize" onClick={imageCrop}><FontAwesomeIcon icon={faCropSimple}/>Crop</button></>
+                  :<pre className='text-primary'> * Crop The Image Using The Mouse</pre>
+                }
               </div> : null}
           <div className="image">
             <div className="content">
               {
                 image ?
+                <ReactCrop crop={crop} onChange={c => setCrop(c)}>
                   <img onLoad={(e) => setDetails(e.currentTarget)} src={image} alt="" style={getImageStyle()} />
+                </ReactCrop>
                   :
                   <div className="choose_image">
                     <div className="upload_img_box" onClick={imageHandle}>
@@ -188,15 +237,15 @@ console.log("filters",ctx.filter)
 
           {image ? <div className="range">
             {options[selectedOptionIndex].name} <br />
-            <input onChange={inputHandle} value={options[selectedOptionIndex].value} min={options[selectedOptionIndex].range.min} max={options[selectedOptionIndex].range.max} type="range" />
             <p>{options[selectedOptionIndex].value}</p>
+            <input onChange={inputHandle} value={options[selectedOptionIndex].value} min={options[selectedOptionIndex].range.min} max={options[selectedOptionIndex].range.max} type="range" />
           </div> : null}
 
 
-          <div className=''>
-            <button>change Image</button>
-            <button onClick={saveImage}>Save</button>
-          </div>
+          {image ?<div className=''>
+            <button className='btn' onClick={imageHandle}><FontAwesomeIcon icon={faImage}/> change Image</button>
+            <button className='btn btn-success' onClick={saveImage}><FontAwesomeIcon icon={faDownload}/> Download</button>
+          </div>:null}
 
         </main>
       </div>
