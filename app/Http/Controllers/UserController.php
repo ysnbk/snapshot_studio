@@ -99,7 +99,7 @@ class UserController extends Controller
         
         if(file_exists($user->profile))
             unlink($user->profile);
-
+        // making image from data URL
         $uri = substr($request->profile,strpos($request->profile,",")+1);
         $data = base64_decode($uri);
         $strpos = strpos($request->profile, ";");
@@ -109,15 +109,6 @@ class UserController extends Controller
         $user->profile = "profiles/".$filename;
         $user->update();
         file_put_contents('profiles/'.$filename,$data);
-        return response()->json([
-            'data'=>$request->all(),
-            'cookie'=> $_COOKIE['user']
-        ]); 
-    }
-
-    public function saveImage(Request $request){
-        return response()->json([
-            'image'=>$request->image
-        ]);
+        return response()->json([]); 
     }
 }

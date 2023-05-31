@@ -180,7 +180,7 @@ const Editor = () => {
 
         const formData = new FormData()
         formData.append('user', getCookie("user"))
-        formData.append('image',canvas.toDataURL())
+        formData.append('photo',canvas.toDataURL())
 
         await axios.post('/api/saveImage',formData)
             .then(({ data }) => {
@@ -213,7 +213,7 @@ const Editor = () => {
                 {crop ?
                   <>Crop:
                   <button className="option-button text-capitalize" onClick={imageCrop}><FontAwesomeIcon icon={faCropSimple}/>Crop</button></>
-                  :<pre className='text-primary'> * Crop The Image Using The Mouse</pre>
+                  :null
                 }
               </div> : null}
           <div className="image">
@@ -237,13 +237,13 @@ const Editor = () => {
 
           {image ? <div className="range">
             {options[selectedOptionIndex].name} <br />
-            <p>{options[selectedOptionIndex].value}</p>
-            <input onChange={inputHandle} value={options[selectedOptionIndex].value} min={options[selectedOptionIndex].range.min} max={options[selectedOptionIndex].range.max} type="range" />
+            <input className='mt-2' onChange={inputHandle} value={options[selectedOptionIndex].value} min={options[selectedOptionIndex].range.min} max={options[selectedOptionIndex].range.max} type="range" />
+            <p className='px-3'>{options[selectedOptionIndex].value} %</p>
           </div> : null}
 
 
           {image ?<div className=''>
-            <button className='btn' onClick={imageHandle}><FontAwesomeIcon icon={faImage}/> change Image</button>
+            <button className='btn' onClick={imageHandle}><FontAwesomeIcon icon={faImage}/> Change Image</button>
             <button className='btn btn-success' onClick={saveImage}><FontAwesomeIcon icon={faDownload}/> Download</button>
           </div>:null}
 

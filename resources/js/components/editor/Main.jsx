@@ -50,11 +50,9 @@ const Main = () => {
           formData.append('profile', reader.result)
           await axios.post('/api/changeProfile/', formData)
       .then(({ data }) => {
-        console.log(data)
         window.location.reload()
       })
       .catch(({ response }) => {
-        console.log(response)
       })
         }
         
