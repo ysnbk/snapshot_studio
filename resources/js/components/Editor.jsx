@@ -6,8 +6,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSun, faAdjust, faCropSimple, faDownload, faImage } from '@fortawesome/free-solid-svg-icons'
 import ReactCrop from 'react-image-crop'
 import 'react-image-crop/dist/ReactCrop.css'
+import Loading from './Loading'
 
 const Editor = () => {
+  
+  const [isLoading , setIsLoading]=useState(true)
+  useEffect(() => {
+  {setIsLoading(false)}
+  }, []);
+
   const defaultFilters = [
     {
       name: 'Brightness',
@@ -175,7 +182,7 @@ const Editor = () => {
     const link = document.createElement('a')
     link.download = 'SnapshotSTudio.jpg'
     link.href = canvas.toDataURL()
-    // link.click()
+    
     if(getCookie("user")){
 
         const formData = new FormData()
@@ -184,16 +191,18 @@ const Editor = () => {
 
         await axios.post('/api/saveImage',formData)
             .then(({ data }) => {
-                console.log(data);
+                console.log(data.image_name);
+                link.download = data.image_name
             })
             .catch(({ response }) => {
                 console.log(response)
             })
       }
+      link.click()
 
   }
   return (
-    <>
+    isLoading?<Loading/>:<>
       <div className="container w-75 mt-3 p-3 mb-5 bg-body-tertiary rounded">
         <h2 className='text-center'><img src={logo} alt="" width='60px' /> Snapshot Studio</h2>
         <main className="editor">

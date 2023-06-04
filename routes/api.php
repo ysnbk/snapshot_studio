@@ -22,6 +22,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::post('register',[UserController::class,'register']);
 Route::post('login',[UserController::class,'login']);
-Route::get('dashboard/',[UserController::class,'dashboard']);
+Route::get('dashboard',[UserController::class,'dashboard']);
 Route::post('changeProfile',[UserController::class,'changeProfile']);
 Route::post('saveImage',[PhotoController::class,'saveImage']);
+Route::get('getImages',[PhotoController::class,'getImages']);

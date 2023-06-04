@@ -1,6 +1,6 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react'
-import { useNavigate} from 'react-router-dom'
+import React, { useEffect, useState , useReducer} from 'react'
+import {Link, useNavigate} from 'react-router-dom'
 import { getCookie , removeCookie} from '../cookie';
 import Navbar from '../Navbar'
 import Loading from '../Loading';
@@ -8,8 +8,9 @@ import Editor from '../Editor';
 
 const Main = () => {
   const navigate = useNavigate()
+  const[ignored,forceUpdate]=useReducer(x=>x+1,0)
   const [isLoading , setIsLoading]=useState(false)
-  const [user , setUser]=useState('')
+  const [user , setUser]=useState()
   useEffect(() => {
     setIsLoading(true)
     const getData=async ()=>{
@@ -23,7 +24,7 @@ const Main = () => {
       .then(({ data }) => {
         setIsLoading(false)
         setUser(data.user)
-        //  console.log(data)
+         console.log(user.profile)
          
          
         })
@@ -35,8 +36,10 @@ const Main = () => {
         
       })
     }
+    forceUpdate()
     window.addEventListener('load',getData())
-  }, []);
+  }, [ignored]);
+
   const changeProfile =()=>{
     const profile = document.createElement("input");
     profile.type="file"
@@ -75,11 +78,9 @@ const Main = () => {
     <strong>{user.name}</strong>
   </a>
   <ul className="dropdown-menu text-small shadow" style={{marginLeft:'-60%'}}>
-    <li><a className="dropdown-item" href="#">New project</a></li>
-    <li><a className="dropdown-item" href="#">Settings</a></li>
-    <li><a className="dropdown-item" href="#">Profile</a></li>
+    <li><Link className="dropdown-item" to='/gallery'>Gallery</Link></li>
     <li><hr className="dropdown-divider" /></li>
-    <li><button className="dropdown-item" onClick={logout}>Sign out</button></li>
+    <li><button className="dropdown-item" onClick={logout}>Log out</button></li>
   </ul>
 </div>
 

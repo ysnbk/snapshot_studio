@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Link ,useNavigate} from 'react-router-dom'
 import Navbar from './Navbar'
-import Loading from './Loading'
 import Editor from './Editor'
 import { getCookie } from './cookie'
 
@@ -13,12 +12,7 @@ const Index = () => {
       navigate(-1)
     }
   }, []);
-  const [isLoading , setIsLoading]=useState(true)
-  useEffect(() => {
-  {setIsLoading(false)}
-  }, []);
   return (
-    isLoading?<Loading/>:
     <div>
       <Navbar
             links={[<li><Link className='link' to='register'>Sign Up</Link></li>

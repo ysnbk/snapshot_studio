@@ -30,8 +30,16 @@ class PhotoController extends Controller
         $photo->save();
         file_put_contents($user->email."/".$filename,$data);
         return response()->json([
-            'image'=>$request->photo,
-            'date'=>$photo->name
+            'image_name'=>$filename,
+        ]);
+    }
+
+    public function getImages(Request $request){
+        $user = User::where('crypted_email','=',$request->user)->first();
+        $images = Photo::where('user_id','=',$user->id)->get();
+        return response()->json([
+            'data'=>$images,
+            'user'=>$user
         ]);
     }
 }

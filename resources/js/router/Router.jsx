@@ -6,6 +6,7 @@ import Signin from '../components/auth/Signin'
 import SignUp from '../components/auth/SignUp'
 import Protected from '../components/Protected'
 import Main from '../components/editor/Main'
+import Gallery from '../components/Gallery'
 
 const Router = () => {
   return (
@@ -17,6 +18,7 @@ const Router = () => {
             <Route path="login" element={<Signin/>}/>
             <Route path="register" element={<SignUp/>}/>
             <Route path="editor" element={<Protected component={<Main/>}/>}/>
+            <Route path="gallery" element={<Protected component={<Gallery/>}/>}/>
             <Route path="*" element={<NotFound/>}/>
         </Routes>
     </div>
