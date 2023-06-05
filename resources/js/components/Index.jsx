@@ -9,7 +9,7 @@ const Index = () => {
   const navigate = useNavigate()
   useEffect(() => {
     if(getCookie("user")){
-      navigate(-1)
+      navigate('editor')
     }
   }, []);
   return (

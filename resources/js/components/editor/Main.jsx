@@ -8,9 +8,11 @@ import Editor from '../Editor';
 
 const Main = () => {
   const navigate = useNavigate()
-  const[ignored,forceUpdate]=useReducer(x=>x+1,0)
   const [isLoading , setIsLoading]=useState(false)
   const [user , setUser]=useState()
+  //checkbox
+  const [isChecked, setIsChecked] = useState(false)
+  
   useEffect(() => {
     setIsLoading(true)
     const getData=async ()=>{
@@ -36,9 +38,8 @@ const Main = () => {
         
       })
     }
-    forceUpdate()
     window.addEventListener('load',getData())
-  }, [ignored]);
+  }, []);
 
   const changeProfile =()=>{
     const profile = document.createElement("input");
@@ -71,6 +72,7 @@ const Main = () => {
   return (
     isLoading?<Loading/>:
     <div>
+      {user && 
         <Navbar links={[<div className="dropdown mx-2">
 
     <img src={user.profile} alt width={32} height={32} className="rounded-circle me-2" onClick={changeProfile}/>
@@ -84,9 +86,16 @@ const Main = () => {
   </ul>
 </div>
 
-]}/>
+]}/>}
   <main>
-    <Editor/>
+    <Editor
+    checkBox={user ? <pre><input
+      type="checkbox"
+      checked={isChecked}
+      className='form-check-input'
+      onChange={() => { setIsChecked(!isChecked) }}
+    /> save these adjustements for further use</pre>:null}
+    />
   </main>
     </div>
   )

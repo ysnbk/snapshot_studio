@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FilterController;
 use App\Http\Controllers\PhotoController;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
@@ -26,3 +27,4 @@ Route::get('dashboard',[UserController::class,'dashboard']);
 Route::post('changeProfile',[UserController::class,'changeProfile']);
 Route::post('saveImage',[PhotoController::class,'saveImage']);
 Route::get('getImages',[PhotoController::class,'getImages']);
+Route::post('saveFilter',[FilterController::class,'saveFilter']);

@@ -36,7 +36,7 @@ class PhotoController extends Controller
 
     public function getImages(Request $request){
         $user = User::where('crypted_email','=',$request->user)->first();
-        $images = Photo::where('user_id','=',$user->id)->get();
+        $images = Photo::where('user_id','=',$user->id)->orderBy('created_at','desc')->get();
         return response()->json([
             'data'=>$images,
             'user'=>$user

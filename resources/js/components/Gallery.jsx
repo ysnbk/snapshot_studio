@@ -32,7 +32,6 @@ const Gallery = () => {
                     // console.log(data)
                     setData(data.data)
                     setUser(data.user)
-                    console.log(user.profile)
 
 
                 })
@@ -46,7 +45,7 @@ const Gallery = () => {
         }
 
         getImages()
-    }, [ignored]);
+    }, []);
 
 
     useEffect(() => {
@@ -90,13 +89,14 @@ const Gallery = () => {
     }, [scrollPosition]);
 
     return (
-        <>
+         <>
+             
             <Navbar links={[<div className="dropdown mx-2">
                     <Link className="dropdown-item" to='/editor'>Editor</Link>
             </div>
 
             ]} />
-
+            {user &&
             <motion.h1
                 className={`text-center alert ${isScrolled ? 'fixed-title' : ''}`}
                 initial={{ opacity: 0, y: -50, scale: 0.5 }}
@@ -107,7 +107,7 @@ const Gallery = () => {
                     textShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
                 }}
                 style={{
-                    textTransform: 'uppercase',
+                    textTransform: 'capitalize',
                     background: 'linear-gradient(to right, #ff6b6b, #4ecdc4)',
                     WebkitBackgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
@@ -115,8 +115,8 @@ const Gallery = () => {
                     ...blurStyle, // Apply blur style dynamically
                 }}
             >
-                Image Gallery
-            </motion.h1>
+                {user.name}'s Gallery
+            </motion.h1>}
 
             <motion.div
                 className={model ? 'model open' : 'model'}
@@ -179,7 +179,7 @@ const Gallery = () => {
                     ))}
                 </motion.div>
             )}
-        </>
+        </> 
     );
 };
 
