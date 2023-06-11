@@ -17,6 +17,4 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
-/public/profiles
-/public/ss9447945@gmail.com
-/public/Zaid@gmail.com
+/images/**
