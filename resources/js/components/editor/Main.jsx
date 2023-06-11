@@ -10,9 +10,6 @@ const Main = () => {
   const navigate = useNavigate()
   const [isLoading , setIsLoading]=useState(false)
   const [user , setUser]=useState()
-  //checkbox
-  const [isChecked, setIsChecked] = useState(false)
-  
   useEffect(() => {
     setIsLoading(true)
     const getData=async ()=>{
@@ -88,14 +85,7 @@ const Main = () => {
 
 ]}/>}
   <main>
-    <Editor
-    checkBox={user ? <pre><input
-      type="checkbox"
-      checked={isChecked}
-      className='form-check-input'
-      onChange={() => { setIsChecked(!isChecked) }}
-    /> save these adjustements for further use</pre>:null}
-    />
+    <Editor/>
   </main>
     </div>
   )
