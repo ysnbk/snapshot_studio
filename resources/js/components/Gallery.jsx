@@ -11,8 +11,6 @@ import Navbar from './Navbar';
 
 const Gallery = () => {
 
-    const[ignored,forceUpdate]=useReducer(x=>x+1,0)
-    const [user, setUser] = useState()
     const [isLoading, setIsLoading] = useState(true);
     const [model, setModel] = useState(false);
     const [tempImgSrc, setTempImgSrc] = useState('');
@@ -32,6 +30,7 @@ const Gallery = () => {
                     // console.log(data)
                     setData(data.data)
                     setUser(data.user)
+                    
 
 
                 })
@@ -96,27 +95,6 @@ const Gallery = () => {
             </div>
 
             ]} />
-            {user &&
-            <motion.h1
-                className={`text-center alert ${isScrolled ? 'fixed-title' : ''}`}
-                initial={{ opacity: 0, y: -50, scale: 0.5 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{ duration: 1, ease: 'easeInOut' }}
-                whileHover={{
-                    scale: 1.05,
-                    textShadow: '0px 2px 4px rgba(0, 0, 0, 0.2)',
-                }}
-                style={{
-                    textTransform: 'capitalize',
-                    background: 'linear-gradient(to right, #ff6b6b, #4ecdc4)',
-                    WebkitBackgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    padding: '10px',
-                    ...blurStyle, // Apply blur style dynamically
-                }}
-            >
-                {user.name}'s Gallery
-            </motion.h1>}
 
             <motion.div
                 className={model ? 'model open' : 'model'}
@@ -137,10 +115,8 @@ const Gallery = () => {
                     transition={{ duration: 0.3, delay: 0.3 }}
                 >
                     <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-                        <FontAwesomeIcon icon={faHeart} className="icon" />
                     </motion.div>
                     <motion.div whileHover={{ scale: 1.2 }} whileTap={{ scale: 0.8 }}>
-                        <FontAwesomeIcon icon={faShare} className="icon" />
                     </motion.div>
                 </motion.div>
                 <motion.div
@@ -164,7 +140,7 @@ const Gallery = () => {
                     {data.map((item, index) => (
                         <motion.div
                             className="pics"
-                            whileHover={{ scale: 1.1 }}
+                            whileHover={{ scale: 1.05} }
                             key={index}
                             onClick={() => getImg(item.path)}
                         >

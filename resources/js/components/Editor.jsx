@@ -16,7 +16,7 @@ const Editor = (props) => {
     hidden: { y: '100%', opacity: 0 },
     visible: { y: 0, opacity: 1, transition: { duration: 0.5, delay: 0.5 } },
   };
-  
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { duration: 0.5 } },
@@ -211,24 +211,23 @@ const Editor = (props) => {
           console.log(response)
         })
 
-        // save the filter
+      // save the filter
     }
     link.click()
   }
   return (
     isLoading ? <Loading /> : <>
       <motion.div className="container w-75 mt-3 p-3 mb-5 bg-body-tertiary rounded"
-            initial="hidden"
-            animate="visible"
-            variants={containerVariants}>
-        <h2 className='text-center'><img src={logo} alt="" width='60px' /> Snapshot Studio</h2>
+        initial="hidden"
+        animate="visible"
+        variants={containerVariants}>
         <main className="editor">
           {
             image ?
               <motion.div className="tools"
-              variants={toolsVariants}
-          initial="hidden"
-          animate="visible">
+                variants={toolsVariants}
+                initial="hidden"
+                animate="visible">
                 Filters:
                 <ul>
                   {
@@ -244,7 +243,7 @@ const Editor = (props) => {
                     <button className="option-button text-capitalize" onClick={imageCrop}><FontAwesomeIcon icon={faCropSimple} />Crop</button></>
                   : null
                 }
-                
+
               </motion.div> : null}
 
           <div className="image">
@@ -255,12 +254,17 @@ const Editor = (props) => {
                     <img onLoad={(e) => setDetails(e.currentTarget)} src={image} alt="" style={getImageStyle()} />
                   </ReactCrop>
                   :
-                  <div className="choose_image">
+                  <motion.div
+                    className="choose_image"
+                    initial={{ opacity: 0,scale: 0 }}
+                    animate={{ opacity: 1,scale: 1 }}
+                    transition={{ duration: 0.8 }}
+                  >
                     <div className="upload_img_box" onClick={imageHandle}>
                       <i className="bx bxs-image-add" /><br />
                       <p id="hint">choose Image from folder</p>
                     </div>
-                  </div>
+                  </motion.div>
               }
             </div>
           </div>
@@ -270,8 +274,8 @@ const Editor = (props) => {
             Amount <br />
             <input className='mt-2' onChange={inputHandle} value={options[selectedOptionIndex].value} min={options[selectedOptionIndex].range.min} max={options[selectedOptionIndex].range.max} type="range" />
             <p className='px-3'>{options[selectedOptionIndex].value} %</p>
-          
-        
+
+
           </div> : null}
 
 
